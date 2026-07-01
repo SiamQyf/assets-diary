@@ -28,9 +28,9 @@ app.use(cors());
 
 app.use((req, res, next) => {
   const contentType = (req.headers['content-type'] || '').toLowerCase();
-  if ((req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') && contentType.includes('application/json')) {
+
+  if (contentType.includes('application/json')) {
     let rawBody = '';
-    req.setEncoding('utf8');
     req.on('data', (chunk) => {
       rawBody += chunk;
     });
@@ -43,7 +43,8 @@ app.use((req, res, next) => {
         req.body = JSON.parse(rawBody);
         next();
       } catch (error) {
-        res.status(400).json({ error: 'Invalid JSON payload.' });
+        req.body = {};
+        next();
       }
     });
     return;
