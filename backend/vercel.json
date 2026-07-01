@@ -11,19 +11,5 @@
       "src": "/(.*)",
       "dest": "server.js"
     }
-  ],
-  "env": {
-    "JWT_SECRET": "@jwt_secret",
-    "SUPABASE_URL": "@supabase_url",
-    "SUPABASE_ANON_KEY": "@supabase_anon_key",
-    "GOOGLE_CLIENT_ID": "@google_client_id",
-    "GOOGLE_CLIENT_SECRET": "@google_client_secret",
-    "GOOGLE_DRIVE_REFRESH_TOKEN": "@google_drive_refresh_token",
-    "DRIVE_ROOT_FOLDER_ID": "@drive_root_folder_id",
-    "SMTP_HOST": "@smtp_host",
-    "SMTP_PORT": "@smtp_port",
-    "SMTP_USER": "@smtp_user",
-    "SMTP_PASS": "@smtp_pass",
-    "FROM_EMAIL": "@from_email"
-  }
+  ]
 }
