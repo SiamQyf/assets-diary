@@ -25,8 +25,37 @@ const {
 const app = express();
 
 app.use(cors());
-app.use(express.json({ limit: '20mb' }));
-app.use(express.urlencoded({ extended: true, limit: '20mb' }));
+
+app.use((req, res, next) => {
+  const contentType = (req.headers['content-type'] || '').toLowerCase();
+  if ((req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') && contentType.includes('application/json')) {
+    let rawBody = '';
+    req.setEncoding('utf8');
+    req.on('data', (chunk) => {
+      rawBody += chunk;
+    });
+    req.on('end', () => {
+      if (!rawBody) {
+        req.body = {};
+        return next();
+      }
+      try {
+        req.body = JSON.parse(rawBody);
+        next();
+      } catch (error) {
+        res.status(400).json({ error: 'Invalid JSON payload.' });
+      }
+    });
+    return;
+  }
+
+  if (contentType.includes('application/x-www-form-urlencoded')) {
+    express.urlencoded({ extended: true, limit: '20mb' })(req, res, next);
+    return;
+  }
+
+  next();
+});
 
 const PORT = process.env.PORT || 3000;
 
