@@ -2,7 +2,7 @@
 
 figma.showUI(__html__, { width: 540, height: 700, title: 'Assets Diary' });
 
-const BACKEND_URLS = ['http://localhost:3000', 'http://127.0.0.1:3000'];
+const BACKEND_URLS = ['https://assets-diary-production.vercel.app', 'http://localhost:3000'];
 const AUTH_STORAGE_KEY = 'assets-diary-auth';
 let authToken = null;
 let currentUser = null;
