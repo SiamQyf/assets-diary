@@ -26,8 +26,17 @@ const app = express();
 
 app.use(cors());
 app.use(express.json({ limit: '20mb' }));
+app.use(express.urlencoded({ extended: true, limit: '20mb' }));
 
 const PORT = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+  res.json({ ok: true, message: 'Assets Diary backend is running.' });
+});
+
+app.get('/api/health', (req, res) => {
+  res.json({ ok: true });
+});
 const JWT_SECRET = process.env.JWT_SECRET || 'change-this-secret';
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || '';
@@ -454,6 +463,10 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Not found.' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Assets Diary backend running on http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Assets Diary backend running on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
